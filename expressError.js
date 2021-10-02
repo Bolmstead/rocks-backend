@@ -12,7 +12,7 @@ class ExpressError extends Error {
   }
 }
 
-/** 404 NOT FOUND error. */
+/** 404 NOT FOUND error. *///
 
 class NotFoundError extends ExpressError {
   constructor(message = "Not Found") {
