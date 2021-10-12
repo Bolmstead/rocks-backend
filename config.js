@@ -6,8 +6,8 @@ require("dotenv").config();
 require("colors");
 
 const PORT = process.env.PORT || 3001;
-const REACT_APP_NFT_PROJECT_ID = process.env.REACT_APP_NFT_PROJECT_ID;
-const REACT_APP_NFT_MAKER_API_KEY = process.env.REACT_APP_NFT_MAKER_API_KEY;
+const NFT_PROJECT_ID = process.env.NFT_PROJECT_ID;
+const NFT_MAKER_API_KEY = process.env.NFT_MAKER_API_KEY;
 
 
 console.log("Cardano Cheese Backend Config:".green);
@@ -16,6 +16,6 @@ console.log("---");
 
 module.exports = {
   PORT,
-  REACT_APP_NFT_PROJECT_ID,
-  REACT_APP_NFT_MAKER_API_KEY
+  NFT_PROJECT_ID,
+  NFT_MAKER_API_KEY
 };

@@ -6,12 +6,12 @@ const express = require("express");
 const { BadRequestError } = require("./expressError");
 const {
   PORT,
-  REACT_APP_NFT_PROJECT_ID,
-  REACT_APP_NFT_MAKER_API_KEY,
+  NFT_PROJECT_ID,
+  NFT_MAKER_API_KEY,
 } = require("./config");
 const axios = require("axios").default;
 
-console.log("REACT_APP_NFT_PROJECT_ID", REACT_APP_NFT_PROJECT_ID);
+console.log("NFT_PROJECT_ID", NFT_PROJECT_ID);
 
 const router = express.Router({ mergeParams: true });
 
@@ -19,7 +19,7 @@ router.get(`/GetCounts`, async function (req, res, next) {
   try {
     async function getCounts() {
       let result = axios.get(
-        `https://api.nft-maker.io/GetCounts/${REACT_APP_NFT_MAKER_API_KEY}/${REACT_APP_NFT_PROJECT_ID}`
+        `https://api.nft-maker.io/GetCounts/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}`
       );
       return result;
     }
@@ -30,8 +30,6 @@ router.get(`/GetCounts`, async function (req, res, next) {
       console.log("result.data", result.data);
       return res.json(result.data);
     }
-
-
   } catch (err) {
     return next(err);
   }
@@ -42,14 +40,14 @@ router.get(`/GetNftDetails/:nftName`, async function (req, res, next) {
   try {
     const nftName = req.params.nftName;
     console.log("🚀 ~ file: routes.js ~ line 26 ~ nftName", nftName);
-    async function getCounts() {
+    async function getNFT() {
       let result = axios.get(
-        `https://api.nft-maker.io/GetNftDetails/${REACT_APP_NFT_MAKER_API_KEY}/${REACT_APP_NFT_PROJECT_ID}/${nftName}`
+        `https://api.nft-maker.io/GetNftDetails/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftName}`
       );
       return result;
     }
 
-    let result = await getCounts();
+    let result = await getNFT();
     console.log("result.data", result.data);
 
     return res.json(result.data);
@@ -62,11 +60,11 @@ router.get(`/GetNftDetails/:nftName`, async function (req, res, next) {
 router.get(`/GetNftDetailsById/:nftId`, async function (req, res, next) {
   try {
     const nftId = req.params.nftId;
-    
+
     console.log("🚀 ~ file: routes.js ~ line 26 ~ nftId", nftId);
     async function getCounts() {
       let result = axios.get(
-        `https://api.nft-maker.io/GetNftDetailsById/${REACT_APP_NFT_MAKER_API_KEY}/${REACT_APP_NFT_PROJECT_ID}/${nftId}`
+        `https://api.nft-maker.io/GetNftDetailsById/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftId}`
       );
       return result;
     }
@@ -85,9 +83,9 @@ router.get(`/GetNfts`, async function (req, res, next) {
   try {
     async function getAllNFTs() {
       let result = axios.get(
-        `https://api.nft-maker.io/GetNfts/${REACT_APP_NFT_MAKER_API_KEY}/${REACT_APP_NFT_PROJECT_ID}/all`
+        `https://api.nft-maker.io/GetNfts/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/all`
       );
-      console.log("ALL NFTs", result)
+      console.log("ALL NFTs", result);
       return result;
     }
 
@@ -101,30 +99,29 @@ router.get(`/GetNfts`, async function (req, res, next) {
 });
 
 router.get(
-  `/MintAndSendRandom/:numOfNfts/:receiverAddress`,
+  `/GetAddressForSpecificNftSale/:nftId`,
   async function (req, res, next) {
     try {
-      const { numOfNfts, receiverAddress } = req.params;
-      console.log(
-        "🚀 ~ file: routes.js ~ line 26 ~ numOfNfts, receiverAddress",
-        numOfNfts,
-        receiverAddress
-      );
-      async function getCounts() {
+      const { nftId } = req.params;
+
+      async function generateNFTAddress() {
         let result = axios.get(
-          `https://api.nft-maker.io/GetCounts/${REACT_APP_NFT_MAKER_API_KEY}/${REACT_APP_NFT_PROJECT_ID}`
+          `https://api.nft-maker.io/GetAddressForSpecificNftSale/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftId}/1/25000000`
         );
+        console.log("🚀 ~ file: routes.js ~ line 111 ~ generateNFTAddress ~ result", result)
         return result;
       }
 
-      let result = await getCounts();
-      console.log("result.data", result.data);
+      let result = await generateNFTAddress();
+      console.log("result", result);
 
-      return res.json(result.data);
+      return res.json(result);
     } catch (err) {
       return next(err);
     }
   }
 );
+
+
 
 module.exports = router;
