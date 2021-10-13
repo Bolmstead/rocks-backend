@@ -4,11 +4,7 @@
 
 const express = require("express");
 const { BadRequestError } = require("./expressError");
-const {
-  PORT,
-  NFT_PROJECT_ID,
-  NFT_MAKER_API_KEY,
-} = require("./config");
+const { PORT, NFT_PROJECT_ID, NFT_MAKER_API_KEY } = require("./config");
 const axios = require("axios").default;
 
 console.log("NFT_PROJECT_ID", NFT_PROJECT_ID);
@@ -103,25 +99,17 @@ router.get(
   async function (req, res, next) {
     try {
       const { nftId } = req.params;
+      console.log("🚀 ~ file: routes.js ~ line 106 ~ nftId", nftId);
 
-      async function generateNFTAddress() {
-        let result = axios.get(
-          `https://api.nft-maker.io/GetAddressForSpecificNftSale/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftId}/1/25000000`
-        );
-        console.log("🚀 ~ file: routes.js ~ line 111 ~ generateNFTAddress ~ result", result)
-        return result;
-      }
+      let result = await axios.get(
+        `https://api.nft-maker.io/GetAddressForSpecificNftSale/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftId}/1/25000000`
+      );
 
-      let result = await generateNFTAddress();
-      console.log("result", result);
-
-      return res.json(result);
+      return res.json(result.data);
     } catch (err) {
       return next(err);
     }
   }
 );
-
-
 
 module.exports = router;
