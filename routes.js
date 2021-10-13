@@ -105,6 +105,8 @@ router.get(
         `https://api.nft-maker.io/GetAddressForSpecificNftSale/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftId}/1/25000000`
       );
 
+      console.log("result from API call", result)
+
       return res.json(result.data);
     } catch (err) {
       return next(err);
