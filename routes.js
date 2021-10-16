@@ -78,6 +78,7 @@ router.get(`/GetNftDetailsById/:nftId`, async function (req, res, next) {
 router.get(`/GetNfts`, async function (req, res, next) {
   try {
     async function getAllNFTs() {
+      console.log(`https://api.nft-maker.io/GetNfts/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/all`)
       let result = axios.get(
         `https://api.nft-maker.io/GetNfts/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/all`
       );
@@ -104,7 +105,26 @@ router.get(
       let result = await axios.get(
         `https://api.nft-maker.io/GetAddressForSpecificNftSale/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/${nftId}/1/25000000`
       );
+      
 
+      console.log("result from API call", result)
+
+      return res.json(result.data);
+    } catch (err) {
+      return next(err);
+    }
+  }
+);
+
+router.get(
+  `/GetAddressForRandomNftSale`,
+  async function (req, res, next) {
+    try {
+
+      let result = await axios.get(
+        `https://api.nft-maker.io/GetAddressForRandomNftSale/${NFT_MAKER_API_KEY}/${NFT_PROJECT_ID}/1/25000000`
+      );
+      
       console.log("result from API call", result)
 
       return res.json(result.data);
